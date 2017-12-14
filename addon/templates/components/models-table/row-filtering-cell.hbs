@@ -9,6 +9,7 @@
       expandAllRows=expandAllRows
       collapseAllRows=collapseAllRows
       toggleAllSelection=toggleAllSelection
+      debounceFilterTime=debounceFilterTime
     )
   }}
 {{else}}
@@ -23,6 +24,7 @@
       expandAllRows=expandAllRows
       collapseAllRows=collapseAllRows
       toggleAllSelection=toggleAllSelection
+      debounceFilterTime=debounceFilterTime
     }}
   {{else}}
     {{#if column.useFilter}}
@@ -40,9 +42,12 @@
             collapseAllRows=collapseAllRows
           }}
         {{else}}
-          {{input type="text"
-            value=column.filterString
-            class=themeInstance.input enter=""
+          {{one-way-input
+            type="text"
+            value=_value
+            update=(action "onUpdate")
+            class=themeInstance.input
+            keyEvents=(hash 13=(action "onEnter"))
             placeholder=column.filterPlaceholder}}
         {{/if}}
         {{#if column.filterUsed}}

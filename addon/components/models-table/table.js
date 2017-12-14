@@ -148,6 +148,15 @@ export default Component.extend({
   useFilteringByColumns: null,
 
   /**
+   * Bound from {{#crossLink "Components.ModelsTable/debounceFilterTime:property"}}ModelsTable.debounceFilterTime{{/crossLink}}
+   *
+   * @property debounceFilterTime
+   * @type number
+   * @default 0
+   */
+  debounceFilterTime: 0,
+
+  /**
    * Bound from {{#crossLink "Components.ModelsTable/groupingRowComponent:property"}}ModelsTable.groupingRowComponent{{/crossLink}}
    *
    * @property groupingRowComponent

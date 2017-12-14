@@ -1,5 +1,7 @@
 import Component from '@ember/component';
 import layout from '../../templates/components/models-table/global-filter';
+import {get, set, computed} from '@ember/object';
+import {debounce} from '@ember/runloop';
 
 /**
  * Global filter element used within [models-table](Components.ModelsTable.html).
@@ -32,6 +34,22 @@ export default Component.extend({
   value: null,
 
   /**
+   * Internal value passed to the input.
+   *
+   * @property _value
+   * @type string
+   * @default value
+   */
+  _value: computed("value", {
+    get(){
+      return get(this, 'value');
+    },
+    set(k, v){
+      return v;
+    }
+  }),
+
+  /**
    * Bound from {{#crossLink "Components.ModelsTable/themeInstance:property"}}ModelsTable.themeInstance{{/crossLink}}
    *
    * @property themeInstance
@@ -59,9 +77,39 @@ export default Component.extend({
   messages: null,
 
   /**
+   * Time in milliseconds the filter should be debounced.
+   *
+   * @type number
+   * @property debounceFilterTime
+   * @default 0
+   */
+  debounceFilterTime: 0,
+
+  /**
    * Closure action {{#crossLink "Components.ModelsTable/actions.sendAction:method"}}ModelsTable.actions.sendAction{{/crossLink}}
    *
    * @event sendAction
    */
-  sendAction: null
+  sendAction: null,
+
+
+  actions: {
+    onEnter(){
+      let enter = get(this, 'enter');
+      if(enter){
+        enter();
+      }
+    },
+
+    onUpdate(value){
+      set(this, '_value', value);
+
+      debounce(this, this.debounceFilter, value, get(this, 'debounceFilterTime'));
+    }
+  },
+
+  debounceFilter(value){
+    set(this, 'value', value);
+  }
+
 });

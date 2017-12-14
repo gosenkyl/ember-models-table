@@ -118,6 +118,15 @@ export default Component.extend({
   displayGroupedValueAs: null,
 
   /**
+   * Bound from {{#crossLink "Components.ModelsTable/debounceFilterTime:property"}}ModelsTable.debounceFilterTime{{/crossLink}}
+   *
+   * @property debounceFilterTime
+   * @type number
+   * @default 0
+   */
+  debounceFilterTime: 0,
+
+  /**
    * Closure action {{#crossLink "Components.ModelsTable/actions.sort:method"}}ModelsTable.actions.sort{{/crossLink}}
    *
    * @event sort

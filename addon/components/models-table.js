@@ -236,6 +236,15 @@ export default Component.extend({
   currentPageNumber: 1,
 
   /**
+   * Time in milliseconds the filters should be debounced.
+   *
+   * @type number
+   * @property debounceFilterTime
+   * @default 0
+   */
+  debounceFilterTime: 0,
+
+  /**
    * List of properties to sort table rows
    *
    * Each value is like 'propertyName:sortDirection'

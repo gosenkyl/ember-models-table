@@ -1,5 +1,6 @@
 import Component from '@ember/component';
-import {get, computed} from '@ember/object';
+import {get, set, computed} from '@ember/object';
+import {debounce} from '@ember/runloop';
 import layout from '../../templates/components/models-table/row-filtering-cell';
 
 /**
@@ -77,6 +78,15 @@ export default Component.extend({
   expandedItems: null,
 
   /**
+   * Bound from {{#crossLink "Components.ModelsTable/debounceFilterTime:property"}}ModelsTable.debounceFilterTime{{/crossLink}}
+   *
+   * @property debounceFilterTime
+   * @type number
+   * @default 0
+   */
+  debounceFilterTime: 0,
+
+  /**
    * Closure action {{#crossLink "Components.ModelsTable/actions.expandAllRows:method"}}ModelsTable.actions.expandAllRows{{/crossLink}}
    *
    * @event expandAllRows
@@ -95,5 +105,34 @@ export default Component.extend({
    *
    * @event toggleAllSelection
    */
-  toggleAllSelection: null
+  toggleAllSelection: null,
+
+  _value: computed('column.filterString', {
+    get(){
+      return get(this, 'column.filterString');
+    },
+    set(k, v){
+      return v;
+    }
+  }),
+
+  actions: {
+    onEnter(){
+      let enter = get(this, 'enter');
+      if(enter){
+        enter();
+      }
+    },
+
+    onUpdate(value){
+      set(this, '_value', value);
+
+      debounce(this, this.debounceFilter, value, get(this, 'debounceFilterTime'));
+    }
+  },
+
+  debounceFilter(value){
+    set(this, 'column.filterString', value);
+  }
+
 });

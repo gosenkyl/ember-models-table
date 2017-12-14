@@ -4,7 +4,7 @@
   <div class="{{themeInstance.globalFilterWrapper}}">
     <div class="form-inline globalSearch">
       <div class="form-group">
-        <label>{{messages.searchLabel}}</label> {{input type="text" value=value class=(concat themeInstance.input " filterString") enter="" placeholder=messages.searchPlaceholder}}
+        <label>{{messages.searchLabel}}</label> {{one-way-input type="text" value=_value update=(action "onUpdate") class=(concat themeInstance.input " filterString") keyEvents=(hash 13=(action "onEnter")) placeholder=messages.searchPlaceholder}}
         {{#if globalFilterUsed}}
           <i class="clearFilterIcon {{themeInstance.clearFilterIcon}}" onclick={{action (mut value) ""}}></i>
         {{/if}}
